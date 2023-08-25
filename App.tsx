@@ -5,8 +5,9 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {PropsWithChildren} from 'react';
+import firestore from '@react-native-firebase/firestore';
 import {
   Button,
   SafeAreaView,
@@ -19,11 +20,21 @@ import {
 } from 'react-native';
 
 function App(): JSX.Element {
-
+  useEffect(() => {
+    getDatabase();
+  }, []);
+  const getDatabase =async () => {
+    try{
+      const data = firestore().collection("test").doc("PqKGFN3B9a1ePiPOvxSS").get();
+      console.log(data);
+    } catch(err){
+      console.log(err);
+    }
+  }
   return (
     <View>
-      <Text style={{fontSize:30}}>Hello World</Text>
-      <Button title='Press here'/>
+      <Text style={{fontSize:30}}>Hello</Text>
+      <Button title='button'/>
     </View>
   );
 }
