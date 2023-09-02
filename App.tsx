@@ -20,61 +20,62 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import Video from './components/Video';
+import VideoCard from './components/VideoCard';
 import Navbar from './components/Navbar';
-import Login from './components/Login';
+import Login from './screens/Login';
+import Feed from './screens/Feed';
+import LandingPage from './screens/LandingPage';
+import Video from './screens/Video';
+
+const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-  // Added api key here because .env method is not working
-  const api_key: string = "AIzaSyD0gF2y72Idp_nJ3c9-K5VuI7dHVC80H98";
-  const playlistId: string = "PLSFQ3Eho2FEBuBqkQmrEOzp2nniXewVyR";
-  
-  // Define a state variable for items
-  const [items, setItems] = useState([]);
-
+  const [firstLaunch, setFirstLaunch] = useState(false);
   useEffect(() => {
-    getPlaylistVideos(api_key, playlistId);
+    AsyncStorage.getItem('alreadyLaunched').then(value => {
+      if (value === null) {
+        setFirstLaunch(true);
+        AsyncStorage.setItem('alreadyLaunched', 'true');
+      } else {
+        setFirstLaunch(false);
+      }
+    });
   }, []);
-
-  async function getPlaylistVideos(api_key: string, playlistId: string): Promise<void> {
-    const response = await axios.get(
-      `https://www.googleapis.com/youtube/v3/playlistItems`,
-      {
-        params: {
-          part: 'snippet',
-          maxResults: 25,
-          playlistId: playlistId,
-          key: api_key,
-        },
-      },
-    );
-
-    // store the response data in the state variable
-    setItems(response.data.items);
-    console.log(response.data.items);
-  }
-
   return (
-    <View style ={styles.body}>
-      <Navbar user="Darshan" />
-      <Login />
-      <ScrollView style={styles.playlist}>
-        {items.map((item) => {
-          return <Video
-          title={item.snippet.title}
-          owner={item.snippet.videoOwnerChannelTitle}
-          thumbnailUrl={item.snippet.thumbnails.default.url}
-          description={item.snippet.description.slice(50)}
-          key={item.snippet.position}/>;
-        })}
-      </ScrollView>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="LandingPage"
+          component={LandingPage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Feed"
+          component={Feed}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+        name="Video"
+        component={Video}
+        options={{
+          headerShown: false,
+        }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  body:{
+  body: {
     backgroundColor: '#E9EDEE',
   },
   playlist: {

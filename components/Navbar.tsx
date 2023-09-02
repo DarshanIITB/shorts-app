@@ -81,9 +81,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logo: {
-    width: '30%',
+    flex: 1.5,
   },
   buttonContainer: {
+    flex: 2,
     marginLeft: 30,
     alignItems: 'center',
     width: '40%',
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   user: {
+    flex: 1,
     textAlign: 'right',
     marginRight: 10,
     width: '20%',

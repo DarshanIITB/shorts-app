@@ -2,7 +2,7 @@ import {View, Text, Image} from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Video(props) {
+export default function VideoCard(props) {
   return (
     <>
     <View
@@ -24,11 +24,11 @@ export default function Video(props) {
           style={{width: 65, height: 65, borderRadius: 8}}
         />
         </View>
-        <Text>| {props.owner}</Text>
+        <Text style={{color: 'grey'}}>| {props.owner}</Text>
       </View>
       <View style={{flex: 3}}>
-        <Text style={{fontWeight: 'bold'}}>{props.title}</Text>
-        <Text>{props.description.substring(0, 50)}</Text>
+        <Text style={{fontWeight: 'bold', color: 'grey'}}>{props.title}</Text>
+        <Text style={{color: 'grey'}}>{props.description.substring(0, 50)}</Text>
         <Text style={{color: '#ff9933'}}>{props.owner}</Text>
       </View>
     </View>
@@ -37,7 +37,7 @@ export default function Video(props) {
   );
 }
 
-Video.propTypes = {
+VideoCard.propTypes = {
   title: PropTypes.string,
   owner: PropTypes.string,
   thumbnailUrl: PropTypes.string,
