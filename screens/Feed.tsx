@@ -23,7 +23,7 @@ import {
 import VideoCard from '../components/VideoCard';
 import Navbar from '../components/Navbar';
 
-function App(): JSX.Element {
+function Feed({navigation}: any): JSX.Element {
   // Added api key here because .env method is not working
   const api_key: string = "AIzaSyD0gF2y72Idp_nJ3c9-K5VuI7dHVC80H98";
   const playlistId: string = "PLSFQ3Eho2FEBuBqkQmrEOzp2nniXewVyR";
@@ -51,7 +51,7 @@ function App(): JSX.Element {
     // store the response data in the state variable
     setItems(response.data.items);
   }
-
+  console.log(items);
   return (
     <View style ={styles.body}>
       <Navbar user="Darshan" />
@@ -62,7 +62,10 @@ function App(): JSX.Element {
           owner={item.snippet.videoOwnerChannelTitle}
           thumbnailUrl={item.snippet.thumbnails.default.url}
           description={item.snippet.description.slice(50)}
-          key={item.snippet.position}/>;
+          key={item.snippet.position}
+          videoId={item.snippet.resourceId.videoId}
+          navigation={navigation}
+          />;
         })}
       </ScrollView>
     </View>
@@ -80,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Feed;

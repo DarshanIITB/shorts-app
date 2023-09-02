@@ -2,7 +2,7 @@ import {View, Text, Image} from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function VideoCard(props) {
+export default function VideoCard(props: any) {
   return (
     <>
     <View
@@ -12,7 +12,8 @@ export default function VideoCard(props) {
         flexWrap: 'wrap',
         marginTop: 10,
         marginBottom: 10,
-      }}>
+      }}
+      >
       <View style={{flex: 1}}>
         <View style={{backgroundColor: 'white',
                       width: 75, 
@@ -27,7 +28,16 @@ export default function VideoCard(props) {
         <Text style={{color: 'grey'}}>| {props.owner}</Text>
       </View>
       <View style={{flex: 3}}>
-        <Text style={{fontWeight: 'bold', color: 'grey'}}>{props.title}</Text>
+        <Text style={{fontWeight: 'bold', color: 'grey'}}
+        onPress={() => {
+          props.navigation.navigate('Video', {
+            title: props.title,
+            owner: props.owner,
+            thumbnailUrl: props.thumbnailUrl,
+            description: props.description,
+            videoId: props.videoId,
+          });
+        }}>{props.title}</Text>
         <Text style={{color: 'grey'}}>{props.description.substring(0, 50)}</Text>
         <Text style={{color: '#ff9933'}}>{props.owner}</Text>
       </View>

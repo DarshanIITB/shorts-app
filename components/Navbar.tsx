@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 export default function Navbar(props) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleSearch = () => {
-    console.log('Searching for: ', searchQuery);
+  const handleChange = (text: string) => {
+    setSearchQuery(text);
     // Add your search logic here
   };
   return (
@@ -53,7 +53,7 @@ export default function Navbar(props) {
       />
       <TextInput
         style={{ flex: 1, marginLeft: 10 }}
-        onChangeText={handleSearch}
+        onChangeText={handleChange}
         value={searchQuery}
         placeholder="Search..."
       />
@@ -108,5 +108,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     marginRight: 10,
     width: '20%',
+    color: 'grey',
   },
 });
