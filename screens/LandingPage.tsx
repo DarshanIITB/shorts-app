@@ -1,10 +1,30 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function LandingPage({navigation}: any) {
+import Login from '../modals/Login';
+
+export default function LandingPage({ route, navigation }: any) {
+  // if(navigation.params.isSignedIn) {
+  //   navigation.navigate('Feed');
+  // }
+  if(route.params?.isSignedIn) {
+    navigation.navigate('Feed');
+  }
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   return (
+    <>
+      <Login 
+      isModalVisible={isModalVisible}
+      setModalVisible={setModalVisible}
+      toggleModal={toggleModal}
+      navigation={navigation}
+       />
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
@@ -30,7 +50,7 @@ export default function LandingPage({navigation}: any) {
       </View>
       <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.button} onPress={()=> {
-        navigation.navigate("Feed");
+        setModalVisible(true);
       }}>
             <Text style={{color: 'white'}}>Start Learning</Text>
         </TouchableOpacity>
@@ -44,6 +64,7 @@ export default function LandingPage({navigation}: any) {
         }}>By signing up, you accept our <Text style={styles.underline}>Privacy Policy</Text> and <Text style={styles.underline}>Terms of Service</Text></Text>
       </View>
     </View>
+    </>
   );
 }
 
